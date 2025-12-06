@@ -81,17 +81,16 @@
   }
 
   document.getElementById('loginForm').onsubmit = function(e) {
-    e.preventDefault();
-
+    e.preventDefault(); // This prevents page refresh
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value.trim();
 
     if (accounts[email] && accounts[email] === password) {
       if (email === adminEmail && password === adminPassword) {
-        // Admin: open admin page in new tab
+        // Admin login
         openAdminPage();
       } else {
-        // Regular user: open iframe in new tab
+        // Regular user
         openUserIframe();
       }
     } else {
