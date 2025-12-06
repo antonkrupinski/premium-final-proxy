@@ -49,7 +49,9 @@
 
 <script>
   document.getElementById('launchBtn').addEventListener('click', function() {
-    document.getElementById('mainFrame').src = 'about:blank';
+    const iframe = document.getElementById('mainFrame');
+    // Reload the iframe by resetting its src attribute
+    iframe.src = 'about:blank';
   });
 </script>
 </body>
