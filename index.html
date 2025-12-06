@@ -44,7 +44,6 @@
     background-color: #3b82f6;
     font-size: 16px;
     color: #fff;
-    cursor: pointer;
   }
   button:hover {
     background-color: #2563eb;
@@ -77,22 +76,20 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
   const password = document.getElementById('password').value.trim();
 
   if (accounts[email] && accounts[email] === password) {
-    // Redirect based on role
     if (email === adminEmail && password === adminPassword) {
       // Admin dashboard
       window.open('dashboard.html', '_blank');
     } else {
-      // Regular user: go to about:blank with iframe
-      openUserIframe();
+      // Non-admin: open iframe directly
+      openUserIframe(email);
     }
   } else {
     alert('Invalid credentials');
   }
 });
 
-function openUserIframe() {
-  const url = prompt('Enter URL to load in iframe:', 'https://');
-  if (!url) return;
+function openUserIframe(email) {
+  const url = 'https://'; // default URL or you could hardcode a URL
   const newTab = window.open('about:blank', '_blank');
   if (newTab) {
     newTab.document.write(`
