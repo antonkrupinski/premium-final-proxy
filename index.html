@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Secure Login Dashboard</title>
+<title>Login Page</title>
 <style>
   body {
     font-family: 'Arial', sans-serif;
@@ -61,7 +61,7 @@
 
 <div id="container">
 <h2>Login to Your Account</h2>
-<form id="loginForm">
+<form id="loginForm" action="#" method="POST">
   <input type="email" id="email" placeholder="Email" required />
   <input type="password" id="password" placeholder="Password" required />
   <button type="submit">Login</button>
@@ -76,27 +76,24 @@
     [adminEmail]: adminPassword
   };
 
-  function saveAccounts() {
-    localStorage.setItem('accounts', JSON.stringify(accounts));
-  }
+  document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // <-- important to prevent refresh!
 
-  document.getElementById('loginForm').onsubmit = function(e) {
-    e.preventDefault(); // This prevents page refresh
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value.trim();
 
     if (accounts[email] && accounts[email] === password) {
       if (email === adminEmail && password === adminPassword) {
-        // Admin login
+        // Admin login: open admin panel
         openAdminPage();
       } else {
-        // Regular user
+        // User login: open iframe
         openUserIframe();
       }
     } else {
       alert('Invalid credentials');
     }
-  };
+  });
 
   function openUserIframe() {
     setTimeout(function() {
@@ -105,12 +102,8 @@
         newTab.document.write(`
           <!DOCTYPE html>
           <html lang="en">
-          <head>
-            <meta charset="UTF-8" />
-            <title>Educational Content</title>
-            <style>body { margin: 0; }</style>
-          </head>
-          <body>
+          <head><meta charset="UTF-8" /><title>Educational Content</title></head>
+          <body style="margin:0;">
             <iframe src="https://peninsulaeducation.baselinux.net/" style="width:100%; height:100vh; border:none;"></iframe>
           </body>
           </html>
@@ -127,64 +120,35 @@
       adminTab.document.write(`
         <!DOCTYPE html>
         <html lang="en">
-        <head>
-          <meta charset="UTF-8" />
-          <title>Admin Account Management</title>
-          <style>
-            body {
-              font-family: Arial, sans-serif;
-              background-color: #0d1b2a;
-              color: #fff;
-              margin: 0;
-              padding: 20px;
-            }
-            h2 { text-align: center; margin-bottom: 20px; }
-            #accountsDiv { max-width: 600px; margin: auto; }
-            input { padding: 10px; margin: 10px 5px; border-radius: 8px; border: none; width: calc(50% - 20px); }
-            button { padding: 12px; border: none; border-radius: 8px; background-color: #3b82f6; color: #fff; cursor: pointer; width: 100%; }
-            button:hover { background-color: #2563eb; }
-            #accountList { margin-top: 20px; }
-            .account-item {
-              display: flex; justify-content: space-between; align-items: center;
-              background-color: #1b263b; padding: 8px; margin-bottom: 8px; border-radius: 8px;
-            }
-            .deleteBtn {
-              background-color: #ef4444; border: none; border-radius: 4px; padding: 4px 8px; color: #fff; cursor: pointer;
-            }
-            .deleteBtn:hover { background-color: #dc2626; }
-          </style>
-        </head>
-        <body>
+        <head><meta charset="UTF-8" /><title>Admin Panel</title></head>
+        <body style="background:#0d1b2a; color:#fff; font-family:sans-serif; padding:20px;">
           <h2>Account Management</h2>
-          <div id="accountsDiv">
-            <h3>Add New Account</h3>
-            <input type="email" id="newEmail" placeholder="Email" />
-            <input type="password" id="newPassword" placeholder="Password" />
-            <button id="addBtn">Add Account</button>
-            <h3>Existing Accounts</h3>
-            <div id="accountList"></div>
-          </div>
+          <div id="accountsDiv"></div>
+          <h3>Add Account</h3>
+          <input type="email" id="newEmail" placeholder="Email" />
+          <input type="password" id="newPassword" placeholder="Password" />
+          <button id="addBtn">Add</button>
           <script>
             let accounts = ${JSON.stringify(accounts)};
-            const accountListDiv = document.getElementById('accountList');
+            const listDiv = document.getElementById('accountsDiv');
 
             function renderAccounts() {
-              accountListDiv.innerHTML = '';
+              listDiv.innerHTML = '';
               for (const email in accounts) {
                 const div = document.createElement('div');
-                div.className = 'account-item';
+                div.style.display='flex'; div.style.justifyContent='space-between'; div.style.background='#1b263b'; div.style.padding='8px'; div.style.borderRadius='5px'; marginBottom='5px';
                 div.innerHTML = \`
                   <span>\${email}</span>
-                  <button class="deleteBtn" data-email="\${email}">Delete</button>
+                  <button class="delBtn" data-email="\${email}">Delete</button>
                 \`;
-                accountListDiv.appendChild(div);
+                listDiv.appendChild(div);
               }
-              document.querySelectorAll('.deleteBtn').forEach(btn => {
-                btn.onclick = function() {
-                  const emailToDelete = this.getAttribute('data-email');
-                  delete accounts[emailToDelete];
+              document.querySelectorAll('.delBtn').forEach(btn => {
+                btn.onclick = () => {
+                  const emailToDel = btn.getAttribute('data-email');
+                  delete accounts[emailToDel];
                   saveAndRender();
-                }
+                };
               });
             }
 
@@ -193,20 +157,15 @@
               renderAccounts();
             }
 
-            document.getElementById('addBtn').onclick = function() {
-              const newEmail = document.getElementById('newEmail').value.trim();
-              const newPassword = document.getElementById('newPassword').value.trim();
-              if (newEmail && newPassword) {
-                if (accounts[newEmail]) {
-                  alert('Account already exists!');
-                } else {
-                  accounts[newEmail] = newPassword;
-                  saveAndRender();
-                  document.getElementById('newEmail').value = '';
-                  document.getElementById('newPassword').value = '';
-                }
-              } else {
-                alert('Fill in both fields');
+            document.getElementById('addBtn').onclick = () => {
+              const email = document.getElementById('newEmail').value.trim();
+              const pass = document.getElementById('newPassword').value.trim();
+              if (email && pass) {
+                if (accounts[email]) { alert('Exists!'); return; }
+                accounts[email] = pass;
+                saveAndRender();
+                document.getElementById('newEmail').value = '';
+                document.getElementById('newPassword').value = '';
               }
             };
 
@@ -216,10 +175,13 @@
         </html>
       `);
     } else {
-      alert("Popup blocked! Please allow popups for this site.");
+      alert("Popup blocked! Please allow popups.");
     }
   }
 </script>
+
+</body>
+</html>
 
 </body>
 </html>
