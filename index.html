@@ -77,38 +77,20 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
 
   if (accounts[email] && accounts[email] === password) {
     if (email === adminEmail && password === adminPassword) {
-      // Admin dashboard
-      window.open('dashboard.html', '_blank');
+      // Admin dashboard (not implemented here)
+      alert('Admin login - dashboard not implemented in this example.');
     } else {
-      // Non-admin: open iframe to default URL
-      openUserIframe();
+      // Non-admin: open user dashboard
+      openUserDashboard();
     }
   } else {
     alert('Invalid credentials');
   }
 });
 
-function openUserIframe() {
-  const defaultUrl = 'peninsulaeducation.baselinux.net'; // your default URL
-  const newTab = window.open('about:blank', '_blank');
-  if (newTab) {
-    newTab.document.write(`
-      <!DOCTYPE html>
-      <html lang="en">
-      <head><meta charset="UTF-8" /><title>Content</title></head>
-      <body style="margin:0;">
-        <iframe id="mainFrame" src="${defaultUrl}" style="width:100%; height:100vh; border:none;"></iframe>
-        <script>
-          // Optional: add navigation controls
-          // Example: navigate to a new URL
-          // document.getElementById('mainFrame').src='https://anotherwebsite.com/';
-        <\/script>
-      </body>
-      </html>
-    `);
-  } else {
-    alert("Popup blocked! Please allow popups.");
-  }
+function openUserDashboard() {
+  // Open the user-dashboard.html page in a new tab
+  window.open('user-dashboard.html', '_blank');
 }
 </script>
 
