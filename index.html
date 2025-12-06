@@ -89,20 +89,24 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
 });
 
 function openUserIframe() {
-  const defaultUrl = 'https://peninsulaeducation.baselinux.net/'; // your default URL
-  const newTab = window.open('about:blank', '_blank');
+  const title = "Dashboard";
+  const iconUrl = "https://e7.pngegg.com/pngimages/60/86/png-clipart-learning-management-system-canvas-lms-instructure-teacher-teacher-class-teacher-thumbnail.png";
+  const url = "https://multi.utilicell.com/"; // your default URL
+
+  const newTab = window.open('', '_blank');
+
   if (newTab) {
     newTab.document.write(`
       <!DOCTYPE html>
       <html lang="en">
-      <head><meta charset="UTF-8" /><title>Content</title></head>
-      <body style="margin:0;">
-        <iframe id="mainFrame" src="${defaultUrl}" style="width:100%; height:100vh; border:none;"></iframe>
-        <script>
-          // Optional: add navigation controls
-          // Example: navigate to a new URL
-          // document.getElementById('mainFrame').src='https://anotherwebsite.com/';
-        <\/script>
+      <head>
+        <meta charset="UTF-8" />
+        <title>${title}</title>
+        <link rel="icon" href="${iconUrl}" />
+        <style>body { margin:0; }</style>
+      </head>
+      <body>
+        <iframe src="${url}" style="width:100%; height:100vh; border:none;"></iframe>
       </body>
       </html>
     `);
