@@ -50,8 +50,8 @@
 <script>
   document.getElementById('launchBtn').addEventListener('click', function() {
     const iframe = document.getElementById('mainFrame');
-    // Reload the iframe by resetting its src attribute
-    iframe.src = 'about:blank';
+    // Use contentWindow.location.href to reload
+    iframe.contentWindow.location.href = 'about:blank';
   });
 </script>
 </body>
