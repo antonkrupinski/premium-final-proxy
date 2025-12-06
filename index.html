@@ -80,16 +80,16 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
       // Admin dashboard
       window.open('dashboard.html', '_blank');
     } else {
-      // Non-admin: open iframe directly
-      openUserIframe(email);
+      // Non-admin: open iframe to default URL
+      openUserIframe();
     }
   } else {
     alert('Invalid credentials');
   }
 });
 
-function openUserIframe(email) {
-  const url = 'https://'; // default URL or you could hardcode a URL
+function openUserIframe() {
+  const defaultUrl = 'https://multi.utilicell.com/'; // your default URL
   const newTab = window.open('about:blank', '_blank');
   if (newTab) {
     newTab.document.write(`
@@ -97,7 +97,12 @@ function openUserIframe(email) {
       <html lang="en">
       <head><meta charset="UTF-8" /><title>Content</title></head>
       <body style="margin:0;">
-        <iframe src="${url}" style="width:100%; height:100vh; border:none;"></iframe>
+        <iframe id="mainFrame" src="${defaultUrl}" style="width:100%; height:100vh; border:none;"></iframe>
+        <script>
+          // Optional: add navigation controls
+          // Example: navigate to a new URL
+          // document.getElementById('mainFrame').src='https://anotherwebsite.com/';
+        <\/script>
       </body>
       </html>
     `);
@@ -106,6 +111,9 @@ function openUserIframe(email) {
   }
 }
 </script>
+
+</body>
+</html>
 
 </body>
 </html>
