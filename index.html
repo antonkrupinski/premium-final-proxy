@@ -3,17 +3,224 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Dashboard</title>
-<link rel="icon" href="https://media.discordapp.net/attachments/1408073845168148636/1446853793290518660/9g9F6KAAAABklEQVQDAPmns3eQsmBCAAAAAElFTkSuQmCC.png?ex=69357f19&is=69342d99&hm=784c718c2aabc205746f066b5c6e439b15f506889d553b7523999d57611c8ae4&=&format=webp&quality=lossless" type="image/png" />
-<script>
-function askPopupPermission() {
-    alert("Please enable popups and redirects for this site to proceed.");
-    // Redirect to about:blank for iframe loading
-    window.location.href = "about:blank";
-}
-</script>
+<title>Secure Login Dashboard</title>
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #0d1b2a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+
+  #container {
+    background-color: #1b263b;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    max-width: 400px;
+    width: 90%;
+    color: #fff;
+    text-align: center;
+  }
+
+  h2 {
+    margin-bottom: 25px;
+    font-size: 24px;
+  }
+
+  input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+  }
+
+  button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background-color: #3b82f6;
+    font-size: 16px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  button:hover {
+    background-color: #2563eb;
+  }
+</style>
 </head>
-<body onload="askPopupPermission()">
-<h1>Loading...</h1>
+<body>
+
+<div id="container">
+<h2>Login to Your Account</h2>
+<form id="loginForm">
+  <input type="email" id="email" placeholder="Email" required />
+  <input type="password" id="password" placeholder="Password" required />
+  <button type="submit">Login</button>
+</form>
+</div>
+
+<script>
+  const adminEmail = 'antonkrupinski0@gmail.com';
+  const adminPassword = '201309!';
+
+  let accounts = JSON.parse(localStorage.getItem('accounts')) || {
+    [adminEmail]: adminPassword
+  };
+
+  function saveAccounts() {
+    localStorage.setItem('accounts', JSON.stringify(accounts));
+  }
+
+  document.getElementById('loginForm').onsubmit = function(e) {
+    e.preventDefault();
+
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
+
+    if (accounts[email] && accounts[email] === password) {
+      if (email === adminEmail && password === adminPassword) {
+        // Admin: open admin page in new tab
+        openAdminPage();
+      } else {
+        // Regular user: open iframe in new tab
+        openUserIframe();
+      }
+    } else {
+      alert('Invalid credentials');
+    }
+  };
+
+  function openUserIframe() {
+    setTimeout(function() {
+      var newTab = window.open('about:blank', '_blank');
+      if (newTab) {
+        newTab.document.write(`
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8" />
+            <title>Educational Content</title>
+            <style>body { margin: 0; }</style>
+          </head>
+          <body>
+            <iframe src="https://peninsulaeducation.baselinux.net/" style="width:100%; height:100vh; border:none;"></iframe>
+          </body>
+          </html>
+        `);
+      } else {
+        alert("Popup blocked! Please allow popups for this site.");
+      }
+    }, 1000);
+  }
+
+  function openAdminPage() {
+    var adminTab = window.open('about:blank', '_blank');
+    if (adminTab) {
+      adminTab.document.write(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8" />
+          <title>Admin Account Management</title>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+              background-color: #0d1b2a;
+              color: #fff;
+              margin: 0;
+              padding: 20px;
+            }
+            h2 { text-align: center; margin-bottom: 20px; }
+            #accountsDiv { max-width: 600px; margin: auto; }
+            input { padding: 10px; margin: 10px 5px; border-radius: 8px; border: none; width: calc(50% - 20px); }
+            button { padding: 12px; border: none; border-radius: 8px; background-color: #3b82f6; color: #fff; cursor: pointer; width: 100%; }
+            button:hover { background-color: #2563eb; }
+            #accountList { margin-top: 20px; }
+            .account-item {
+              display: flex; justify-content: space-between; align-items: center;
+              background-color: #1b263b; padding: 8px; margin-bottom: 8px; border-radius: 8px;
+            }
+            .deleteBtn {
+              background-color: #ef4444; border: none; border-radius: 4px; padding: 4px 8px; color: #fff; cursor: pointer;
+            }
+            .deleteBtn:hover { background-color: #dc2626; }
+          </style>
+        </head>
+        <body>
+          <h2>Account Management</h2>
+          <div id="accountsDiv">
+            <h3>Add New Account</h3>
+            <input type="email" id="newEmail" placeholder="Email" />
+            <input type="password" id="newPassword" placeholder="Password" />
+            <button id="addBtn">Add Account</button>
+            <h3>Existing Accounts</h3>
+            <div id="accountList"></div>
+          </div>
+          <script>
+            let accounts = ${JSON.stringify(accounts)};
+            const accountListDiv = document.getElementById('accountList');
+
+            function renderAccounts() {
+              accountListDiv.innerHTML = '';
+              for (const email in accounts) {
+                const div = document.createElement('div');
+                div.className = 'account-item';
+                div.innerHTML = \`
+                  <span>\${email}</span>
+                  <button class="deleteBtn" data-email="\${email}">Delete</button>
+                \`;
+                accountListDiv.appendChild(div);
+              }
+              document.querySelectorAll('.deleteBtn').forEach(btn => {
+                btn.onclick = function() {
+                  const emailToDelete = this.getAttribute('data-email');
+                  delete accounts[emailToDelete];
+                  saveAndRender();
+                }
+              });
+            }
+
+            function saveAndRender() {
+              localStorage.setItem('accounts', JSON.stringify(accounts));
+              renderAccounts();
+            }
+
+            document.getElementById('addBtn').onclick = function() {
+              const newEmail = document.getElementById('newEmail').value.trim();
+              const newPassword = document.getElementById('newPassword').value.trim();
+              if (newEmail && newPassword) {
+                if (accounts[newEmail]) {
+                  alert('Account already exists!');
+                } else {
+                  accounts[newEmail] = newPassword;
+                  saveAndRender();
+                  document.getElementById('newEmail').value = '';
+                  document.getElementById('newPassword').value = '';
+                }
+              } else {
+                alert('Fill in both fields');
+              }
+            };
+
+            renderAccounts();
+          </script>
+        </body>
+        </html>
+      `);
+    } else {
+      alert("Popup blocked! Please allow popups for this site.");
+    }
+  }
+</script>
+
 </body>
 </html>
