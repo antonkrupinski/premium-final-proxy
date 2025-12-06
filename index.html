@@ -5,16 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Login Page</title>
 <style>
+  /* Your style here for nice appearance */
   body {
-    font-family: 'Arial', sans-serif;
     background-color: #0d1b2a;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
+    font-family: Arial, sans-serif;
   }
-
   #container {
     background-color: #1b263b;
     padding: 40px;
@@ -23,15 +23,13 @@
     max-width: 400px;
     width: 90%;
     color: #fff;
-    text-align: center;
   }
-
   h2 {
     margin-bottom: 25px;
-    font-size: 24px;
+    text-align: center;
   }
-
   input {
+    display: block;
     width: 100%;
     padding: 12px;
     margin-bottom: 20px;
@@ -39,7 +37,6 @@
     border: none;
     font-size: 16px;
   }
-
   button {
     width: 100%;
     padding: 14px;
@@ -49,16 +46,13 @@
     font-size: 16px;
     color: #fff;
     cursor: pointer;
-    transition: background-color 0.3s;
   }
-
   button:hover {
     background-color: #2563eb;
   }
 </style>
 </head>
 <body>
-
 <div id="container">
 <h2>Login to Your Account</h2>
 <form id="loginForm" action="#" method="POST">
@@ -67,34 +61,26 @@
   <button type="submit">Login</button>
 </form>
 </div>
-
 <script>
   const adminEmail = 'antonkrupinski0@gmail.com';
   const adminPassword = '201309!';
-
   let accounts = JSON.parse(localStorage.getItem('accounts')) || {
     [adminEmail]: adminPassword
   };
-
   document.getElementById('loginForm').addEventListener('submit', function(e) {
-    e.preventDefault(); // <-- important to prevent refresh!
-
+    e.preventDefault(); // prevent form's default submit behavior
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value.trim();
-
     if (accounts[email] && accounts[email] === password) {
       if (email === adminEmail && password === adminPassword) {
-        // Admin login: open admin panel
         openAdminPage();
       } else {
-        // User login: open iframe
         openUserIframe();
       }
     } else {
       alert('Invalid credentials');
     }
   });
-
   function openUserIframe() {
     setTimeout(function() {
       var newTab = window.open('about:blank', '_blank');
@@ -113,7 +99,6 @@
       }
     }, 1000);
   }
-
   function openAdminPage() {
     var adminTab = window.open('about:blank', '_blank');
     if (adminTab) {
@@ -131,12 +116,11 @@
           <script>
             let accounts = ${JSON.stringify(accounts)};
             const listDiv = document.getElementById('accountsDiv');
-
             function renderAccounts() {
               listDiv.innerHTML = '';
               for (const email in accounts) {
                 const div = document.createElement('div');
-                div.style.display='flex'; div.style.justifyContent='space-between'; div.style.background='#1b263b'; div.style.padding='8px'; div.style.borderRadius='5px'; marginBottom='5px';
+                div.style.display='flex'; div.style.justifyContent='space-between'; div.style.background='#1b263b'; div.style.padding='8px'; div.style.borderRadius='5px'; div.style.marginBottom='5px';
                 div.innerHTML = \`
                   <span>\${email}</span>
                   <button class="delBtn" data-email="\${email}">Delete</button>
@@ -151,12 +135,10 @@
                 };
               });
             }
-
             function saveAndRender() {
               localStorage.setItem('accounts', JSON.stringify(accounts));
               renderAccounts();
             }
-
             document.getElementById('addBtn').onclick = () => {
               const email = document.getElementById('newEmail').value.trim();
               const pass = document.getElementById('newPassword').value.trim();
@@ -168,9 +150,8 @@
                 document.getElementById('newPassword').value = '';
               }
             };
-
             renderAccounts();
-          </script>
+          <\/script>
         </body>
         </html>
       `);
@@ -179,7 +160,6 @@
     }
   }
 </script>
-
 </body>
 </html>
 
