@@ -70,8 +70,15 @@
     [adminEmail]: adminPassword
   };
 
+  // Load banned accounts
+  let bannedAccounts = JSON.parse(localStorage.getItem('banned')) || [];
+
   function saveAccounts() {
     localStorage.setItem('accounts', JSON.stringify(accounts));
+  }
+
+  function saveBanned() {
+    localStorage.setItem('banned', JSON.stringify(bannedAccounts));
   }
 
   function renderAccounts() {
@@ -80,9 +87,13 @@
     for (const email in accounts) {
       const div = document.createElement('div');
       div.className='account-item';
+      const isBanned = bannedAccounts.includes(email);
       div.innerHTML = `
         <span>${email}</span>
-        <button onclick="deleteAccount('${email}')">X</button>
+        <div>
+          <button onclick="deleteAccount('${email}')">X</button>
+          <button onclick="toggleBan('${email}')">${isBanned ? 'Unban' : 'Ban'}</button>
+        </div>
       `;
       listDiv.appendChild(div);
     }
@@ -94,7 +105,22 @@
       return;
     }
     delete accounts[email];
+    // Also unban if banned
+    bannedAccounts = bannedAccounts.filter(e => e !== email);
     saveAccounts();
+    saveBanned();
+    renderAccounts();
+  };
+
+  window.toggleBan = function(email) {
+    if (bannedAccounts.includes(email)) {
+      // Unban
+      bannedAccounts = bannedAccounts.filter(e => e !== email);
+    } else {
+      // Ban
+      bannedAccounts.push(email);
+    }
+    saveBanned();
     renderAccounts();
   };
 
