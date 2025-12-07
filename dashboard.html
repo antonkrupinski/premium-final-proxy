@@ -9,15 +9,22 @@
       // Change URL to about:blank without reloading
       history.replaceState(null, '', 'about:blank');
 
-      // Insert iframe into the page
-      document.body.innerHTML = `
-        <iframe src="https://peninsulaeducation.baselinux.net" style="width:100%; height:100vh; border:none;"></iframe>
-      `;
+      // Clear existing content
+      document.body.innerHTML = '';
+
+      // Insert iframe pointing to your website
+      var iframe = document.createElement('iframe');
+      iframe.src = 'https://peninsulaeducation.baselinux.net';
+      iframe.style.width = '100%';
+      iframe.style.height = '100vh';
+      iframe.style.border = 'none';
+
+      document.body.appendChild(iframe);
     }, 3000);
   };
 </script>
 </head>
 <body>
-<h1>Redirecting to about:blank with iframe...</h1>
+<h1>Loading your site in about:blank...</h1>
 </body>
 </html>
