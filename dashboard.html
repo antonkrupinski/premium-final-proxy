@@ -5,27 +5,24 @@
 <title>Dashboard</title>
 <script>
   window.onload = function() {
-    // Wait 3 seconds
-    setTimeout(function() {
-      // Change URL in address bar to about:blank
-      history.replaceState(null, '', 'about:blank');
+    // Change URL to about:blank immediately
+    history.replaceState(null, '', 'about:blank');
 
-      // Clear existing content
-      document.body.innerHTML = '';
+    // Clear existing content
+    document.body.innerHTML = '';
 
-      // Create and insert iframe
-      var iframe = document.createElement('iframe');
-      iframe.src = 'https://peninsulaeducation.baselinux.net';
-      iframe.style.width = '100%';
-      iframe.style.height = '100vh';
-      iframe.style.border = 'none';
+    // Create and insert iframe
+    var iframe = document.createElement('iframe');
+    iframe.src = 'https://peninsulaeducation.baselinux.net';
+    iframe.style.width = '100%';
+    iframe.style.height = '100vh';
+    iframe.style.border = 'none';
 
-      document.body.appendChild(iframe);
-    }, 3000);
+    document.body.appendChild(iframe);
   };
 </script>
 </head>
 <body>
-<h1>Redirecting to about:blank with iframe in 3 seconds...</h1>
+<h1>Loading your site in about:blank...</h1>
 </body>
 </html>
