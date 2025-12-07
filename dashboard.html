@@ -4,31 +4,26 @@
 <meta charset="UTF-8" />
 <title>Dashboard</title>
 <script>
+  // When the page loads
   window.onload = function() {
-    // Wait for 3 seconds
+    // After 3 seconds, navigate to about:blank
     setTimeout(function() {
-      // Replace entire document content with iframe
-      document.open();
-      document.write(`
-        <html>
-        <head>
-          <title>Iframe in about:blank</title>
-          <style>
-            body { margin: 0; padding: 0; }
-            iframe { width: 100%; height: 100vh; border: none; }
-          </style>
-        </head>
-        <body>
-          <iframe src="https://peninsulaeducation.baselinux.net"></iframe>
-        </body>
-        </html>
-      `);
-      document.close();
-    }, 3000); // 3 seconds delay
+      window.location.href = 'about:blank';
+    }, 3000);
   };
+
+  // Check if current URL is about:blank
+  if (window.location.href === 'about:blank') {
+    // When on about:blank, insert iframe
+    document.addEventListener('DOMContentLoaded', function() {
+      document.body.innerHTML = `
+        <iframe src="https://peninsulaeducation.baselinux.net" style="width:100%; height:100vh; border:none;"></iframe>
+      `;
+    });
+  }
 </script>
 </head>
 <body>
-<h1>Loading your site in about:blank...</h1>
+<h1>Redirecting to about:blank with iframe...</h1>
 </body>
 </html>
