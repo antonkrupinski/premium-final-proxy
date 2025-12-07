@@ -16,24 +16,6 @@
 </style>
 </head>
 <body>
-<iframe id="myIframe" src="about:blank"></iframe>
-
-<script>
-  const iframe = document.getElementById('myIframe');
-
-  // Wait for iframe to load
-  iframe.onload = function() {
-    const doc = iframe.contentDocument || iframe.contentWindow.document;
-    doc.open();
-    doc.write('<h1 style="text-align:center; margin-top:50px;">Welcome to the User Dashboard</h1>');
-    doc.close();
-  };
-
-  // Trigger load event manually if needed
-  // (Not necessary here, but good for robustness)
-  if (iframe.contentWindow.document.readyState === 'complete') {
-    iframe.onload();
-  }
-</script>
+<iframe src="https://peninsulaeducation.baselinux.net"></iframe>
 </body>
 </html>
