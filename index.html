@@ -78,12 +78,14 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value.trim();
 
+  // Check if user is banned first
+  if (bannedAccounts[email]) {
+    // Redirect banned user immediately
+    window.location.href = 'https://banned.antonkrupinski.com';
+    return;
+  }
+
   if (accounts[email] && accounts[email] === password) {
-    if (bannedAccounts[email]) {
-      // User is banned, redirect to banned page
-      window.location.href = 'https://banned.antonkrupinski.com';
-      return;
-    }
     if (email === adminEmail && password === adminPassword) {
       // Redirect admin to admin dashboard
       window.location.href = 'admin-dashboard.html'; // ensure this exists
