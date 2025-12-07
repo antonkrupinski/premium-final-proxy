@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Dashboard</title>
+<title>User Dashboard</title>
 <style>
   body {
     margin: 0;
@@ -16,6 +16,12 @@
 </style>
 </head>
 <body>
-<iframe src="about:blank"></iframe>
+<iframe id="targetFrame" src="about:blank"></iframe>
+<script>
+  // After page loads, set iframe src to the target website
+  window.onload = function() {
+    document.getElementById('targetFrame').src = 'https://peninsulaeducation.baselinux.net';
+  };
+</script>
 </body>
 </html>
