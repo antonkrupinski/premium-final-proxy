@@ -1,0 +1,7 @@
+name = "premium-final-proxy"
+type = "javascript" # or "module" if using ESM
+main = "index.js"   # specify your entry point
+account_id = "253abf5d75d04f703528a62fe63dad59"
+workers_dev = true
+route = ""
+zone_id = ""
