@@ -80,7 +80,7 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
 
   if (accounts[email] && accounts[email] === password) {
     if (bannedAccounts[email]) {
-      // User is banned
+      // User is banned, redirect to banned page
       window.location.href = 'https://banned.antonkrupinski.com';
       return;
     }
@@ -88,7 +88,7 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
       // Redirect admin to admin dashboard
       window.location.href = 'admin-dashboard.html'; // ensure this exists
     } else {
-      // Redirect to the iframe page
+      // Redirect to user dashboard (iframe page)
       window.location.href = 'dashboard.html';
     }
   } else {
