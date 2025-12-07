@@ -65,9 +65,12 @@
 const adminEmail = 'antonkrupinski0@gmail.com';
 const adminPassword = '201309!';
 
+// Load accounts
 let accounts = JSON.parse(localStorage.getItem('accounts')) || {
   [adminEmail]: adminPassword
 };
+// Load banned accounts
+let bannedAccounts = JSON.parse(localStorage.getItem('banned')) || {};
 
 document.getElementById('loginForm').addEventListener('submit', function(e) {
   e.preventDefault();
@@ -76,22 +79,21 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
   const password = document.getElementById('password').value.trim();
 
   if (accounts[email] && accounts[email] === password) {
+    if (bannedAccounts[email]) {
+      // User is banned, redirect
+      window.location.href = 'https://banned.antonkrupinski.com';
+      return;
+    }
     if (email === adminEmail && password === adminPassword) {
-      // Admin dashboard (not implemented here)
       alert('Admin login - dashboard not implemented in this example.');
     } else {
-      // Non-admin: open user dashboard
-      openUserDashboard();
+      // Non-admin user
+      window.open('user-dashboard.html', '_blank');
     }
   } else {
     alert('Invalid credentials');
   }
 });
-
-function openUserDashboard() {
-  // Open the user-dashboard.html page in a new tab
-  window.open('user-dashboard.html', '_blank');
-}
 </script>
 
 </body>
