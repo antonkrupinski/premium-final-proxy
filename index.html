@@ -85,11 +85,11 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
       return;
     }
     if (email === adminEmail && password === adminPassword) {
-      // Redirect admin to admin dashboard
-      window.location.href = 'admin-dashboard.html'; // ensure this file exists
+      // Redirect to admin page
+      window.location.href = 'admin-dashboard.html'; // ensure this exists
     } else {
-      // Non-admin user
-      window.open('user-dashboard.html', '_blank');
+      // For normal users, redirect to a page with iframe
+      window.location.href = 'dashboard-iframe.html';
     }
   } else {
     alert('Invalid credentials');
