@@ -79,17 +79,16 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
   const password = document.getElementById('password').value.trim();
 
   if (accounts[email] && accounts[email] === password) {
-    if (bannedAccounts[email]) {
-      // User is banned, redirect
-      window.location.href = 'https://banned.antonkrupinski.com';
-      return;
-    }
-    if (email === adminEmail && password === adminPassword) {
-      // Redirect to admin page
-      window.location.href = 'admin-dashboard.html'; // ensure this exists
-    } else {
-      // For normal users, redirect to a page with iframe
-      window.location.href = 'dashboard-iframe.html';
+  if (bannedAccounts[email]) {
+    window.location.href = 'https://banned.antonkrupinski.com';
+    return;
+  }
+  if (email === adminEmail && password === adminPassword) {
+    window.location.href = 'admin-dashboard.html'; // your admin page
+  } else {
+    // Redirect to the page with iframe loading the URL
+    window.location.href = 'dashboard.html';
+  }
     }
   } else {
     alert('Invalid credentials');
