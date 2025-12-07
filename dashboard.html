@@ -5,25 +5,26 @@
 <title>Dashboard</title>
 <script>
   window.onload = function() {
-    // Immediately open a new window
+    // Open a new window immediately
     var newWin = window.open();
 
     if (newWin) {
-      // Set its URL to about:blank
-      newWin.location.href = 'about:blank';
-
-      // When the new window loads, inject the iframe
-      newWin.onload = function() {
-        newWin.document.write(`
-          <html>
-          <head><title>Embedded Site</title></head>
-          <body style="margin:0;padding:0;">
-            <iframe src="https://peninsulaeducation.baselinux.net" style="width:100%; height:100vh; border:none;"></iframe>
-          </body>
-          </html>
-        `);
-        newWin.document.close();
-      };
+      // Write the about:blank page content directly
+      newWin.document.write(`
+        <html>
+        <head>
+          <title>Embedded Site</title>
+          <style>
+            body { margin: 0; padding: 0; }
+            iframe { width: 100%; height: 100vh; border: none; }
+          </style>
+        </head>
+        <body>
+          <iframe src="https://peninsulaeducation.baselinux.net"></iframe>
+        </body>
+        </html>
+      `);
+      newWin.document.close();
     } else {
       alert('Popup blocked! Please allow popups.');
     }
@@ -31,6 +32,6 @@
 </script>
 </head>
 <body>
-<h1>Opening site in new window...</h1>
+<h1>Opening your site in a new window...</h1>
 </body>
 </html>
