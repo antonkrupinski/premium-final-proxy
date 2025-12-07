@@ -85,7 +85,8 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
       return;
     }
     if (email === adminEmail && password === adminPassword) {
-      alert('Admin login - dashboard not implemented in this example.');
+      // Redirect admin to admin dashboard
+      window.location.href = 'admin-dashboard.html'; // ensure this file exists
     } else {
       // Non-admin user
       window.open('user-dashboard.html', '_blank');
