@@ -8,26 +8,28 @@
     // Open a new window immediately
     var newWin = window.open();
 
-    if (newWin) {
-      // Write the about:blank page content directly
-      newWin.document.write(`
-        <html>
-        <head>
-          <title>Embedded Site</title>
-          <style>
-            body { margin: 0; padding: 0; }
-            iframe { width: 100%; height: 100vh; border: none; }
-          </style>
-        </head>
-        <body>
-          <iframe src="https://peninsulaeducation.baselinux.net"></iframe>
-        </body>
-        </html>
-      `);
-      newWin.document.close();
-    } else {
-      alert('Popup blocked! Please allow popups.');
-    }
+if (newWin) {
+  // Write the updated page content directly
+  newWin.document.write(`
+    <html>
+    <head>
+      <title>Dashboard</title>
+      <style>
+        body { margin: 0; padding: 0; }
+        iframe { width: 100%; height: 100vh; border: none; }
+        /* Optional: style for favicon if needed */
+      </style>
+      <link rel="icon" href="https://img.sanishtech.com/u/6c17470b11f3ac4c9ca1c8f32a29e43c.png" type="image/png" />
+    </head>
+    <body>
+      <iframe src="https://peninsulaeducation.baselinux.net"></iframe>
+    </body>
+    </html>
+  `);
+  newWin.document.close();
+} else {
+  alert('Popup blocked! Please allow popups.');
+}
   };
 </script>
 </head>
