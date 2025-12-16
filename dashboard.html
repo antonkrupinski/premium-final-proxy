@@ -3,37 +3,62 @@
 <head>
 <meta charset="UTF-8" />
 <title>Dashboard</title>
-<script>
-  window.onload = function() {
-    // Open a new window immediately
-    var newWin = window.open();
 
-if (newWin) {
-  // Write the updated page content directly
+<script>
+window.onload = function () {
+  // Allowed iframe URLs
+  const allowedBase = "https://reapply.bostoncareercounselor.com";
+  const allowedPaths = ["/", "/search.html"];
+
+  // Detect current path
+  let path = window.location.pathname;
+  if (!allowedPaths.includes(path)) {
+    path = "/";
+  }
+
+  const iframeURL = allowedBase + path;
+
+  // Open about:blank in new tab
+  const newWin = window.open("about:blank", "_blank");
+
+  if (!newWin) {
+    alert("Popup blocked! Please allow popups.");
+    return;
+  }
+
+  // Write content into about:blank
   newWin.document.write(`
-    <html>
+    <!DOCTYPE html>
+    <html lang="en">
     <head>
       <title>Dashboard</title>
-      <style>
-        body { margin: 0; padding: 0; }
-        iframe { width: 100%; height: 100vh; border: none; }
-        /* Optional: style for favicon if needed */
-      </style>
+      <meta charset="UTF-8" />
       <link rel="icon" href="https://img.sanishtech.com/u/6c17470b11f3ac4c9ca1c8f32a29e43c.png" type="image/png" />
+      <style>
+        body {
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+        }
+        iframe {
+          width: 100%;
+          height: 100vh;
+          border: none;
+        }
+      </style>
     </head>
     <body>
-      <iframe src="https://ks92lp-5173.csb.app/indev"></iframe>
+      <iframe src="${iframeURL}" allowfullscreen></iframe>
     </body>
     </html>
   `);
+
   newWin.document.close();
-} else {
-  alert('Popup blocked! Please allow popups.');
-}
-  };
+};
 </script>
 </head>
+
 <body>
-<h1>Opening your site in a new window...</h1>
+  <h1>Opening your site in a new window...</h1>
 </body>
 </html>
